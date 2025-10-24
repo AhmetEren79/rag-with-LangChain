@@ -28,11 +28,13 @@ python -m venv venv
 .\venv\Scripts\activate
 
 3. Gerekli Paketleri Yükleyin
+
 Proje için gerekli tüm Python kütüphanelerini requirements.txt dosyasından yükleyin.
 
 pip install -r requirements.txt
 
 4. Gerekli Ayarlamalar
+
 a) OpenAI için (main.py)
 main.py dosyasının çalışması için bir OpenAI API anahtarına ihtiyacınız vardır.
 
