@@ -25,7 +25,6 @@ QA_PROMPT = PromptTemplate(
 )
 
 def setup_qa_system(file_path):
-    # 1. PDF'i Yükle ve Böl
     loader = PyPDFLoader(file_path)
     docs = loader.load_and_split()
 
@@ -33,18 +32,13 @@ def setup_qa_system(file_path):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = text_splitter.split_documents(docs)
 
-    # 3. Embedding'leri Oluştur ve Vektör Veritabanına Kaydet
     embeddings = OllamaEmbeddings(model='llama3.1:latest')
     vector_store = FAISS.from_documents(chunks, embeddings)
 
-    # 4. Retriever'ı Oluştur
     retriever = vector_store.as_retriever()
 
-    # 5. LLM'i (Modeli) Tanımla
     llm = Ollama(model='llama3.1:latest')
 
-    # 6. Soru-Cevap Zincirini (Chain) Oluştur
-    # GÜNCELLENDİ: Zincire özel Türkçe prompt'umuzu ekliyoruz
     qa_chain = RetrievalQA.from_chain_type(
         llm,
         retriever=retriever,
@@ -57,7 +51,6 @@ if __name__ == '__main__':
 
     print("PDF yüklendi. Soru sormaya başlayabilirsiniz. (Çıkmak için 'çıkış' veya 'exit' yazın)")
 
-    # Terminal genişliğini al (varsayılan 80)
     try:
         terminal_width = os.get_terminal_size().columns
     except OSError:
@@ -69,26 +62,20 @@ if __name__ == '__main__':
         if question.lower() in ['exit', 'çıkış']:
             break
 
-        # Zinciri çalıştır ve cevabı al
         answer = qa_chain.invoke(question)
 
         print('\nCevap:')
 
-        # --- TAŞMAYI ÖNLEYEN KOD ---
-        # Cevabı düz metin olarak al
         result_text = answer['result']
 
-        # Cevabı satır satır böl (listelerdeki gibi boşlukları korumak için)
         lines = result_text.split('\n')
 
         for line in lines:
 
             wrapped_lines = textwrap.wrap(line, width=terminal_width - 5)  # Kenar boşluğu için 5 karakter kısalttık
 
-            # Eğer satır boşsa (listeler arası boşluksa), boş satır bas
             if not wrapped_lines:
                 print()
             else:
-                # Bölünmüş satırları yazdır
                 for wrapped_line in wrapped_lines:
                     print(wrapped_line)

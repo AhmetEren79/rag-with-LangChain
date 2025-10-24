@@ -38,31 +38,22 @@ QA_PROMPT = PromptTemplate(
 
 @st.cache_resource
 def create_qa_chain(_uploaded_file):
-    """
-    Yüklenen PDF dosyasından bir Soru-Cevap zinciri oluşturur.
-    """
+
     if _uploaded_file is not None:
-        # Geçici bir dosyaya yazma (PyPDFLoader dosya yolu bekler)
         temp_file_path = os.path.join("./", _uploaded_file.name)
         with open(temp_file_path, "wb") as f:
             f.write(_uploaded_file.getbuffer())
 
-        # 1. PDF'i Yükle ve Böl
         loader = PyPDFLoader(temp_file_path)
         docs = loader.load_and_split()
 
-        # 2. Metni Parçalara Ayır
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = text_splitter.split_documents(docs)
-
-        # 3. Embedding'leri Oluştur ve Vektör Veritabanına Kaydet
         embeddings = OpenAIEmbeddings()
         vector_store = FAISS.from_documents(chunks, embeddings)
 
-        # 4. LLM'i Tanımla
         llm = ChatOpenAI(temperature=0, model_name='gpt-4o')
 
-        # 5. Soru-Cevap Zincirini Oluştur
         qa_chain = RetrievalQA.from_chain_type(
             llm,
             retriever=vector_store.as_retriever(),
@@ -71,7 +62,6 @@ def create_qa_chain(_uploaded_file):
         return qa_chain
     return None
 
-# --- Streamlit Arayüzü ---
 st.set_page_config(page_title="PDF ile Sohbet", page_icon="📄")
 
 st.title("📄 PDF Dosyanızla Sohbet Edin")
@@ -81,7 +71,6 @@ uploaded_file = st.file_uploader("Lütfen PDF dosyanızı buraya yükleyin", typ
 
 
 if uploaded_file is not None:
-    # Zinciri oluştur (veya önbellekten yükle)
     with st.spinner('PDF işleniyor, vektörler oluşturuluyor... Lütfen bekleyin.'):
         qa_chain = create_qa_chain(uploaded_file)
         st.success(f"**{uploaded_file.name}** başarıyla işlendi! Artık soru sorabilirsiniz.")
@@ -95,7 +84,6 @@ if uploaded_file is not None:
                 answer = qa_chain.invoke(question)
                 result_text = answer.get('result', 'Cevap alınamadı.')
 
-                # Cevabı daha güzel göstermek için bir kutu oluştur
                 st.markdown("### Cevap:")
                 st.info(result_text)
 
