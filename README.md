@@ -97,18 +97,12 @@ python ollama.py
 Çıkmak için çıkış veya exit yazabilirsiniz.
 
 🛠️ Kullanılan Teknolojiler
-Python 3.10+
-
-Streamlit: Web arayüzü için.
-
-LangChain: RAG zincirlerini oluşturmak ve LLM'leri entegre etmek için ana kütüphane.
-
-OpenAI: GPT-4o modeli ve embedding'ler için.
-
-Ollama: Llama 3.1 modelini yerel olarak çalıştırmak için.
-
-FAISS (faiss-cpu): Vektör depolama ve arama için.
-
+*Python 3.10+
+*Streamlit: Web arayüzü için.
+*LangChain: RAG zincirlerini oluşturmak ve LLM'leri entegre etmek için ana kütüphane.
+*OpenAI: GPT-4o modeli ve embedding'ler için.
+*Ollama: Llama 3.1 modelini yerel olarak çalıştırmak için.
+*FAISS (faiss-cpu): Vektör depolama ve arama için.
 PyPDFLoader: PDF dosyalarını yüklemek ve metne dönüştürmek için.
 
 python-dotenv: API anahtarlarını güvenli bir şekilde yönetmek için.
