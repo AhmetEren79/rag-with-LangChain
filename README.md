@@ -56,21 +56,27 @@ Proje ana dizininde (main.py'nin yanında) .env adında bir dosya oluşturun.
 
 Dosyanın içine API anahtarınızı aşağıdaki gibi ekleyin:
 
-OPENAI_API_KEY='sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+Kod snippet'i
 
+OPENAI_API_KEY='sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 b) Ollama için (ollama.py)
 ollama.py dosyasının çalışması için sisteminizde Ollama'nın kurulu olması ve llama3.1 modelinin indirilmiş olması gerekir.
 
 Resmi sitesinden Ollama'yı indirin ve kurun.
 
 Kurulumdan sonra terminali açın ve modeli indirmek için aşağıdaki komutu çalıştırın:
-ollama pull llama3.1:latest
 
+Bash
+
+ollama pull llama3.1:latest
 💻 Kullanım
 1. Streamlit Web Uygulaması (OpenAI)
 Kullanıcı dostu arayüzü başlatmak için:
 
 Terminalinizde (sanal ortam aktifken) aşağıdaki komutu çalıştırın:
+
+Bash
+
 streamlit run main.py
 Otomatik olarak açılan tarayıcı sekmesinde "Gözat" (Browse files) butonuna tıklayarak bir PDF dosyası yükleyin.
 
@@ -81,18 +87,28 @@ Yerel modelle çalışan terminal uygulamasını başlatmak için:
 
 Soru sormak istediğiniz PDF dosyasını proje klasörüne atın ve adını deneme.pdf olarak değiştirin (veya ollama.py içindeki setup_qa_system('deneme.pdf') satırını kendi PDF dosya adınızla güncelleyin).
 
-Ardından dosyayı çalıştırın
+Terminalinizde (sanal ortam aktifken) aşağıdaki komutu çalıştırın:
 
+Bash
+
+python ollama.py
 "PDF yüklendi. Soru sormaya başlayabilirsiniz." mesajını gördükten sonra sorularınızı terminale yazın.
 
-Çıkmak için "çıkış" veya "exit" yazabilirsiniz.
+Çıkmak için çıkış veya exit yazabilirsiniz.
 
 🛠️ Kullanılan Teknolojiler
-+Python 3.10+
-+Streamlit: Web arayüzü için.
-+LangChain: RAG zincirlerini oluşturmak ve LLM'leri entegre etmek için ana kütüphane.
-+OpenAI: GPT-4o modeli ve embedding'ler için.
-+Ollama: Llama 3.1 modelini yerel olarak çalıştırmak için.
-+FAISS (faiss-cpu): Vektör depolama ve arama için.
-+PyPDFLoader: PDF dosyalarını yüklemek ve metne dönüştürmek için.
-+python-dotenv: API anahtarlarını güvenli bir şekilde yönetmek için.
+Python 3.10+
+
+Streamlit: Web arayüzü için.
+
+LangChain: RAG zincirlerini oluşturmak ve LLM'leri entegre etmek için ana kütüphane.
+
+OpenAI: GPT-4o modeli ve embedding'ler için.
+
+Ollama: Llama 3.1 modelini yerel olarak çalıştırmak için.
+
+FAISS (faiss-cpu): Vektör depolama ve arama için.
+
+PyPDFLoader: PDF dosyalarını yüklemek ve metne dönüştürmek için.
+
+python-dotenv: API anahtarlarını güvenli bir şekilde yönetmek için.
